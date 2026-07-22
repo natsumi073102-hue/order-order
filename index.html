@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Order Form | Internal Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7EA;
+    --card:#FFFFFF;
+    --rind:#3F6B35;
+    --rind-light:#6FA05A;
+    --rind-pale:#E7EFDD;
+    --cantaloupe:#F1953A;
+    --cantaloupe-dark:#D9791C;
+    --watermelon:#E85C6B;
+    --ink:#22301A;
+    --ink-soft:#5B6B4F;
+    --line:#DEE6CC;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  html,body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:480px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--bg);
+    padding-bottom:48px;
+    position:relative;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:linear-gradient(180deg,#F1953A 0%,#EDA857 55%,var(--bg) 100%);
+    padding:28px 20px 34px;
+    color:#3A2306;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,255,255,.55);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:#2E7D32;}
+  .dot.closed{background:#B0392C;}
+  .hero h1{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:34px;
+    line-height:1.15;
+    margin:14px 0 4px;
+  }
+  .hero p{
+    margin:0;
+    font-size:14px;
+    color:#4A2E08;
+    opacity:.85;
+  }
+  .melon-slice{
+    position:absolute;
+    right:-18px;
+    top:8px;
+    width:118px;
+    height:118px;
+    opacity:.95;
+  }
+
+  /* scalloped rind divider — signature element */
+  .rind-divider{
+    height:16px;
+    width:100%;
+    background:
+      radial-gradient(circle at 8px 0, transparent 8px, var(--bg) 8.5px) repeat-x;
+    background-size:16px 16px;
+    margin-top:-1px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .section{padding:4px 18px 0;}
+  .section-title{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--rind);
+    margin:22px 0 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .section-title .num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;height:20px;
+    border-radius:50%;
+    background:var(--rind);
+    color:#fff;
+    font-size:11px;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+  }
+
+  /* ---------- PRODUCT CARDS ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    margin-bottom:12px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .card-name{
+    font-weight:700;
+    font-size:16px;
+    color:var(--ink);
+  }
+  .card-sub{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:3px;
+    line-height:1.5;
+  }
+  .price-tag{
+    flex-shrink:0;
+    background:var(--rind-pale);
+    color:var(--rind);
+    font-weight:700;
+    font-size:12.5px;
+    padding:5px 10px;
+    border-radius:10px;
+    white-space:nowrap;
+  }
+  .stepper-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:2px;
+  }
+  .stepper{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    background:var(--rind-pale);
+    border-radius:12px;
+    padding:4px;
+  }
+  .stepper button{
+    width:34px;height:34px;
+    border-radius:9px;
+    border:none;
+    background:#fff;
+    color:var(--rind);
+    font-size:19px;
+    font-weight:700;
+    line-height:1;
+    cursor:pointer;
+    box-shadow:0 1px 2px rgba(0,0,0,.08);
+  }
+  .stepper button:active{transform:scale(0.94);}
+  .stepper .val{
+    min-width:64px;
+    text-align:center;
+    font-weight:700;
+    font-size:15px;
+  }
+  .line-subtotal{
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--cantaloupe-dark);
+  }
+  .hint{
+    font-size:11.5px;
+    color:var(--rind-light);
+    font-weight:600;
+  }
+
+  /* ---------- FORM FIELDS ---------- */
+  .field{margin-bottom:12px;}
+  .field label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+  }
+  .field input, .field select{
+    width:100%;
+    padding:12px 13px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+  }
+  .field input:focus, .field select:focus{
+    outline:2px solid var(--cantaloupe);
+    outline-offset:1px;
+  }
+
+  /* ---------- TOTAL BAR ---------- */
+  .total-card{
+    background:var(--rind);
+    color:#fff;
+    border-radius:var(--radius);
+    padding:16px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:18px 0;
+  }
+  .total-card .label{font-size:13px;opacity:.85;}
+  .total-card .amount{font-family:'Baloo 2',sans-serif;font-size:26px;font-weight:800;}
+
+  /* ---------- PAYMENT ---------- */
+  .pay-box{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  .qr-slot{
+    width:84px;height:84px;
+    border:2px dashed var(--line);
+    border-radius:12px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    color:var(--ink-soft);
+    text-align:center;
+    overflow:hidden;
+    background:var(--rind-pale);
+  }
+  .qr-slot img{width:100%;height:100%;object-fit:contain;}
+  .pay-text{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .pay-text b{color:var(--ink);}
+
+  /* ---------- SUBMIT ---------- */
+  .submit-btn{
+    width:100%;
+    padding:16px;
+    margin-top:20px;
+    border:none;
+    border-radius:14px;
+    background:var(--cantaloupe);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    font-family:'Baloo 2',sans-serif;
+    letter-spacing:.02em;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(241,149,58,.35);
+  }
+  .submit-btn:active{transform:translateY(1px);}
+  .submit-btn:disabled{
+    background:#C9C4B4;
+    box-shadow:none;
+    cursor:not-allowed;
+  }
+  .status-msg{
+    font-size:12.5px;
+    text-align:center;
+    margin-top:10px;
+    color:var(--ink-soft);
+    min-height:16px;
+  }
+  .status-msg.error{color:var(--watermelon);font-weight:600;}
+  .status-msg.warn{color:var(--cantaloupe-dark);font-weight:600;}
+
+  /* ---------- CONFIRMATION ---------- */
+  .confirm{
+    display:none;
+    padding:60px 26px;
+    text-align:center;
+  }
+  .confirm.show{display:block;}
+  .app.confirmed .form-wrap{display:none;}
+  .confirm-icon{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:var(--rind);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;
+    margin:0 auto 18px;
+  }
+  .confirm h2{font-family:'Baloo 2',sans-serif;color:var(--rind);margin:0 0 8px;}
+  .confirm p{color:var(--ink-soft);font-size:14px;line-height:1.7;}
+  .confirm-order{
+    text-align:left;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    margin-top:20px;
+    font-size:13.5px;
+  }
+  .confirm-order div{display:flex;justify-content:space-between;padding:4px 0;}
+  .again-btn{
+    margin-top:22px;
+    background:none;
+    border:1.5px solid var(--rind);
+    color:var(--rind);
+    font-weight:700;
+    padding:10px 20px;
+    border-radius:12px;
+    cursor:pointer;
+  }
+
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    opacity:.7;
+    margin-top:30px;
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <div class="form-wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <span class="hero-badge"><span class="dot" id="statusDot"></span><span id="statusText">Checking…</span></span>
+      <h1>Order<br>Form</h1>
+      <p>Open 10:00 AM – 5:30 PM · Pay by QR code</p>
+      <svg class="melon-slice" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 10 A50 50 0 0 1 110 60 L60 60 Z" fill="#F6B45E"/>
+        <path d="M60 10 A50 50 0 0 1 110 60" stroke="#3F6B35" stroke-width="8" fill="none"/>
+        <circle cx="75" cy="35" r="2.4" fill="#7a4a12"/>
+        <circle cx="90" cy="48" r="2.4" fill="#7a4a12"/>
+        <circle cx="68" cy="50" r="2.4" fill="#7a4a12"/>
+        <circle cx="95" cy="30" r="2.4" fill="#7a4a12"/>
+      </svg>
+    </div>
+    <div class="rind-divider"></div>
+
+    <!-- PRODUCTS -->
+    <div class="section">
+      <div class="section-title"><span class="num">1</span>Choose your items</div>
+      <div id="productList"></div>
+
+      <div class="total-card">
+        <span class="label">Total</span>
+        <span class="amount" id="totalAmount">$0.00</span>
+      </div>
+
+      <!-- CUSTOMER INFO -->
+      <div class="section-title"><span class="num">2</span>Your details</div>
+      <div class="field">
+        <label for="custName">Name *</label>
+        <input id="custName" type="text" placeholder="e.g. John Smith">
+      </div>
+      <div class="field">
+        <label for="custContact">Contact (LINE name / phone) *</label>
+        <input id="custContact" type="text" placeholder="e.g. LINE: john_s / 012-345-678">
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="section-title"><span class="num">3</span>Payment</div>
+      <div class="pay-box">
+        <div class="qr-slot" id="qrSlot">
+          Place QR<br>image here
+        </div>
+        <div class="pay-text">
+          Please pay by <b>QR code</b>.<br>
+          Cash and online payment are not handled through this form.
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn">Place order</button>
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION SCREEN -->
+  <div class="confirm" id="confirmScreen">
+    <div class="confirm-icon">✓</div>
+    <h2>Thanks for your order!</h2>
+    <p>Your order has been sent to the team.<br>Please pay via the QR code or ABA Pay shown above.</p>
+    <div class="confirm-order" id="confirmOrder"></div>
+    <button class="again-btn" onclick="resetForm()">Place another order</button>
+  </div>
+
+  <footer>Internal use only · Order Form Prototype</footer>
+</div>
+
+<script>
+/* ======================= CONFIG ======================= */
+/* 1) After deploying the Apps Script, paste its Web App URL here */
+const CONFIG = {
+  ENDPOINT_URL: "https://script.google.com/macros/s/AKfycbw0wexb43LVffhMS6vEb_OkKmLKZigAh1c_RleYS8EWFFgs9g2-NKY66RuSS5Srl2Uv/exec",
+  TIMEZONE_OFFSET_MIN: 7 * 60, // Asia/Phnom_Penh = UTC+7
+  OPEN_MIN: 10 * 60,           // 10:00
+  CLOSE_MIN: 17 * 60 + 30      // 17:30
+};
+
+/* ======================= PRODUCTS ======================= */
+/* Cut Melon price assumes ~300–350g per pack, priced at the $2/kg rate ($0.65).
+   Edit the "price" logic below if the real price is different. */
+const PRODUCTS = [
+  {
+    id: "smoothie",
+    name: "Melon Smoothie",
+    sub: "$1.50 each · Group order of 5+ is $1.25 each",
+    type: "qty",
+    unit: "cup(s)",
+    step: 1,
+    min: 0,
+    priceFor(qty){ return qty >= 5 ? qty * 1.25 : qty * 1.5; },
+    priceLabel(qty){ return qty >= 5 ? "$1.25 each (5+)" : "$1.50 each"; }
+  },
+  {
+    id: "whole",
+    name: "Whole Melon",
+    sub: "$2.00 / kg",
+    type: "qty",
+    unit: "kg",
+    step: 0.5,
+    min: 0,
+    priceFor(qty){ return qty * 2; },
+    priceLabel(){ return "$2.00 / kg"; }
+  },
+  {
+    id: "cut",
+    name: "Cut Melon",
+    sub: "1 pack, 300–350g",
+    type: "qty",
+    unit: "pack(s)",
+    step: 1,
+    min: 0,
+    priceFor(qty){ return qty * 1; },
+    priceLabel(){ return "$1.00 / pack"; }
+  },
+  {
+    id: "beniharuka",
+    name: "Beni Haruka",
+    sub: "$1.00 / kg",
+    type: "qty",
+    unit: "kg",
+    step: 0.5,
+    min: 0,
+    priceFor(qty){ return qty * 1; },
+    priceLabel(){ return "$1.00 / kg"; }
+  },
+  {
+    id: "kurikaguya",
+    name: "Kuri Kaguya",
+    sub: "$1.00 / kg",
+    type: "qty",
+    unit: "kg",
+    step: 0.5,
+    min: 0,
+    priceFor(qty){ return qty * 1; },
+    priceLabel(){ return "$1.00 / kg"; }
+  }
+];
+
+const state = {};
+PRODUCTS.forEach(p => state[p.id] = p.min);
+
+/* ======================= RENDER PRODUCTS ======================= */
+const listEl = document.getElementById("productList");
+
+function fmt(n){ return "$" + n.toFixed(2); }
+
+function renderProducts(){
+  listEl.innerHTML = "";
+  PRODUCTS.forEach(p => {
+    const qty = state[p.id];
+    const subtotal = p.priceFor(qty);
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-top">
+        <div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-sub">${p.sub}</div>
+        </div>
+        <div class="price-tag">${p.priceLabel(qty)}</div>
+      </div>
+      <div class="stepper-row">
+        <div class="stepper">
+          <button type="button" data-act="minus" data-id="${p.id}">−</button>
+          <div class="val">${qty} ${p.unit}</div>
+          <button type="button" data-act="plus" data-id="${p.id}">＋</button>
+        </div>
+        <div class="line-subtotal">${subtotal > 0 ? fmt(subtotal) : ""}</div>
+      </div>
+    `;
+    listEl.appendChild(card);
+  });
+
+  listEl.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const p = PRODUCTS.find(x => x.id === id);
+      const dir = btn.dataset.act === "plus" ? 1 : -1;
+      let next = +(state[id] + dir * p.step).toFixed(2);
+      if (next < p.min) next = p.min;
+      state[id] = next;
+      renderProducts();
+      updateTotal();
+    });
+  });
+}
+
+function updateTotal(){
+  const total = PRODUCTS.reduce((sum, p) => sum + p.priceFor(state[p.id]), 0);
+  document.getElementById("totalAmount").textContent = fmt(total);
+  return total;
+}
+
+renderProducts();
+updateTotal();
+
+/* ======================= BUSINESS HOURS ======================= */
+function nowMinutesInPhnomPenh(){
+  const now = new Date();
+  const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes();
+  return (utcMin + CONFIG.TIMEZONE_OFFSET_MIN) % 1440;
+}
+function isOpenNow(){
+  const m = nowMinutesInPhnomPenh();
+  return m >= CONFIG.OPEN_MIN && m <= CONFIG.CLOSE_MIN;
+}
+function refreshStatusBadge(){
+  const dot = document.getElementById("statusDot");
+  const text = document.getElementById("statusText");
+  if (isOpenNow()){
+    dot.classList.remove("closed");
+    text.textContent = "Open now";
+  } else {
+    dot.classList.add("closed");
+    text.textContent = "Closed (10:00 AM–5:30 PM)";
+  }
+}
+refreshStatusBadge();
+setInterval(refreshStatusBadge, 60000);
+
+/* ======================= SUBMIT ======================= */
+const submitBtn = document.getElementById("submitBtn");
+const statusMsg = document.getElementById("statusMsg");
+
+submitBtn.addEventListener("click", async () => {
+  statusMsg.className = "status-msg";
+  statusMsg.textContent = "";
+
+  const name = document.getElementById("custName").value.trim();
+  const contact = document.getElementById("custContact").value.trim();
+  const total = updateTotal();
+
+  const items = PRODUCTS
+    .filter(p => state[p.id] > 0)
+    .map(p => ({
+      name: p.name,
+      qty: state[p.id],
+      unit: p.unit,
+      subtotal: p.priceFor(state[p.id])
+    }));
+
+  if (!name || !contact){
+    statusMsg.className = "status-msg error";
+    statusMsg.textContent = "Please enter your name and contact info.";
+    return;
+  }
+  if (items.length === 0){
+    statusMsg.className = "status-msg error";
+    statusMsg.textContent = "Please select at least one item.";
+    return;
+  }
+  if (!isOpenNow()){
+    statusMsg.className = "status-msg warn";
+    statusMsg.textContent = "We're currently closed (open 10:00 AM–5:30 PM). Please try again during business hours.";
+    return;
+  }
+
+  const order = {
+    name, contact, items, total,
+    submittedAt: new Date().toISOString()
+  };
+
+  if (CONFIG.ENDPOINT_URL.includes("PUT_YOUR_APPS_SCRIPT")){
+    statusMsg.className = "status-msg error";
+    statusMsg.textContent = "Setup needed: ENDPOINT_URL is not configured yet (admin note).";
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+
+  try {
+    // Using text/plain avoids a CORS preflight (Apps Script parses it as JSON server-side)
+    await fetch(CONFIG.ENDPOINT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(order)
+    });
+    showConfirmation(order);
+  } catch (err){
+    statusMsg.className = "status-msg error";
+    statusMsg.textContent = "Something went wrong sending your order. Please check your connection and try again.";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Place order";
+  }
+});
+
+function showConfirmation(order){
+  document.getElementById("app").classList.add("confirmed");
+  const box = document.getElementById("confirmOrder");
+  box.innerHTML = order.items.map(i =>
+    `<div><span>${i.name} × ${i.qty} ${i.unit}</span><span>${fmt(i.subtotal)}</span></div>`
+  ).join("") + `<div style="border-top:1px solid #DEE6CC;margin-top:6px;padding-top:8px;font-weight:700;"><span>Total</span><span>${fmt(order.total)}</span></div>`;
+  document.getElementById("confirmScreen").classList.add("show");
+}
+
+function resetForm(){
+  PRODUCTS.forEach(p => state[p.id] = p.min);
+  renderProducts();
+  updateTotal();
+  document.getElementById("custName").value = "";
+  document.getElementById("custContact").value = "";
+  document.getElementById("app").classList.remove("confirmed");
+  document.getElementById("confirmScreen").classList.remove("show");
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Place order";
+  statusMsg.textContent = "";
+}
+</script>
+</body>
+</html>
