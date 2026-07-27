@@ -483,6 +483,17 @@ const PRODUCTS = [
     min: 0,
     priceFor(qty){ return qty * 1; },
     priceLabel(){ return "$1.00 / kg"; }
+  },
+   {
+    id: “sweet”,
+    name: “Sweet potato smoothie”,
+    sub: “promo $1.50/cup”,
+    type: "qty",
+    unit: “cup(s)”,
+    step: 1,
+    min: 0,
+    priceFor(qty){ return qty * 1.50; },
+    priceLabel(){ return "$1.50 / cup; }
   }
 ];
 
