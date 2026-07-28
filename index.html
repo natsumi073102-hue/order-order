@@ -494,6 +494,17 @@ const PRODUCTS = [
     min: 0,
     priceFor(qty){ return qty * 1.50; },
     priceLabel(){ return "$1.50 / cup"; }
+  },
+   {
+    id: "potato",
+    name: "Sweet potato shake",
+    sub: "promo $2.00/cup",
+    type: "qty",
+    unit: "cup(s)",
+    step: 1,
+    min: 0,
+    priceFor(qty){ return qty * 2.00; },
+    priceLabel(){ return "$2.00 / cup"; }
   }
 ];
 
